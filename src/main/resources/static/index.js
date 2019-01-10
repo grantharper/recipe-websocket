@@ -7,6 +7,7 @@ function connect(callback) {
     console.log('Connected: ' + frame);
     stompClient.subscribe('/recipe/update', function (recipe) {
       var parsed = JSON.parse(recipe.body);
+      updateStepIndexOnUI(parsed.currentStepIndex);
       showCurrentStep(parsed.steps[parsed.currentStepIndex]);
     });
     callback();
@@ -24,13 +25,17 @@ function nextStep() {
   console.log('numberPageStepIndex=', numberPageStepIndex);
   var nextStepIndex = numberPageStepIndex + 1;
   console.log('nextIndex=', nextStepIndex);
-  $("#currentStep").attr('data-index', nextStepIndex.toString());
+  updateStepIndexOnUI(nextStepIndex.toString());
   stompClient.send("/app/update", {}, JSON.stringify({'currentStepIndex': nextStepIndex.toString()}));
 }
 
 function showCurrentStep(message) {
   console.log('get message=' + message);
   $("#currentStep").html(message);
+}
+
+function updateStepIndexOnUI(currentStepIndex) {
+  $("#currentStep").attr('data-index', currentStepIndex.toString());
 }
 
 $(function () {
@@ -40,8 +45,5 @@ $(function () {
   $("#nextStep").click(function () {
     nextStep();
   });
-  // $("#initializeRecipe").click(function () {
-  //   initializeRecipe();
-  // });
   connect(initializeRecipe);
 });
