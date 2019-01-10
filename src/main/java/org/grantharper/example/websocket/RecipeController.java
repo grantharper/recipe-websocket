@@ -36,7 +36,6 @@ public class RecipeController {
     @SendTo("/recipe/update")
     public Recipe updateStep(StepUpdate stepUpdate) throws Exception {
         log.info("received websocket stepUpdate: " + stepUpdate);
-        Thread.sleep(1000); // simulated delay
         recipe.setCurrentStepIndex(stepUpdate.getCurrentStepIndex());
         return this.recipe;
     }
