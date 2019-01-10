@@ -18,15 +18,29 @@ function initializeRecipe() {
   stompClient.send("/app/update", {}, JSON.stringify({'currentStepIndex': '0'}));
 }
 
-function nextStep() {
+function getCurrentStepIndexFromUI() {
   var pageStepIndex = $("#currentStep").attr('data-index');
   console.log('currentStepIndex=' + pageStepIndex);
   var numberPageStepIndex = parseInt(pageStepIndex);
   console.log('numberPageStepIndex=', numberPageStepIndex);
-  var nextStepIndex = numberPageStepIndex + 1;
+  return numberPageStepIndex;
+}
+
+function nextStep() {
+  var nextStepIndex = getCurrentStepIndexFromUI() + 1;
   console.log('nextIndex=', nextStepIndex);
-  updateStepIndexOnUI(nextStepIndex.toString());
-  stompClient.send("/app/update", {}, JSON.stringify({'currentStepIndex': nextStepIndex.toString()}));
+  updateStepIndexFromUIAction(nextStepIndex);
+}
+
+function previousStep(currentStepIndex) {
+  var previousStepIndex = getCurrentStepIndexFromUI() - 1;
+  console.log('previousIndex=', previousStepIndex);
+  updateStepIndexFromUIAction(previousStepIndex);
+}
+
+function updateStepIndexFromUIAction(updateStepIndex) {
+  updateStepIndexOnUI(updateStepIndex.toString());
+  stompClient.send("/app/update", {}, JSON.stringify({'currentStepIndex': updateStepIndex.toString()}));
 }
 
 function showCurrentStep(message) {
@@ -44,6 +58,9 @@ $(function () {
   });
   $("#nextStep").click(function () {
     nextStep();
+  });
+  $("#previousStep").click(function () {
+    previousStep();
   });
   connect(initializeRecipe);
 });
