@@ -7,7 +7,7 @@
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="/app.js"></script>
+    <script src="/index.js"></script>
 </head>
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
@@ -15,14 +15,15 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     <div class="row">
-        <div class="col-12">
-            <button id="initializeRecipe" class="btn btn-sm btn-default">Start</button>
-            <button id="nextStep" class="btn btn-sm btn-success">Next Step</button>
+        <div class="col-md-12">
+            <h2>Recipe Step</h2>
+            <p id="currentStep" data-index="0"></p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <p id="currentStep" data-index="0">Press a button</p>
+            <button id="previousStep" class="btn btn-sm btn-success">Previous Step</button>
+            <button id="nextStep" class="btn btn-sm btn-success">Next Step</button>
         </div>
     </div>
 </div>

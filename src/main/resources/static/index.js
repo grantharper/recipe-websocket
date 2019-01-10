@@ -1,6 +1,6 @@
 var stompClient = null;
 
-function connect() {
+function connect(callback) {
   var socket = new SockJS('/websocket');
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function (frame) {
@@ -9,6 +9,7 @@ function connect() {
       var parsed = JSON.parse(recipe.body);
       showCurrentStep(parsed.steps[parsed.currentStepIndex]);
     });
+    callback();
   });
 }
 
@@ -39,8 +40,8 @@ $(function () {
   $("#nextStep").click(function () {
     nextStep();
   });
-  $("#initializeRecipe").click(function () {
-    initializeRecipe();
-  });
-  connect();
+  // $("#initializeRecipe").click(function () {
+  //   initializeRecipe();
+  // });
+  connect(initializeRecipe);
 });
