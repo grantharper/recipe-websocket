@@ -5,7 +5,7 @@ function connect() {
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/recipe/websocket', function (recipe) {
+    stompClient.subscribe('/recipe/update', function (recipe) {
       var parsed = JSON.parse(recipe.body);
       showCurrentStep(parsed.steps[parsed.currentStepIndex]);
     });
@@ -36,9 +36,6 @@ $(function () {
   $("form").on('submit', function (e) {
     e.preventDefault();
   });
-  // $( "#connect" ).click(function() { connect(); });
-  // $( "#disconnect" ).click(function() { disconnect(); });
-  // $( "#send" ).click(function() { sendStep(); });
   $("#nextStep").click(function () {
     nextStep();
   });
