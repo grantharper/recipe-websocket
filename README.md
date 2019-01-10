@@ -6,11 +6,13 @@ Demo of websockets with a recipe
 
 Run the main class `WebsocketApplication` and expose port 8080 over a network
 
-Pull up `localhost:8080` in a browser on your current machine and on a different device.
+Open `localhost:8080` and `localhost:8080/external.html` in a browser on different tabs, or even on different
+devices on the same network (you'll need the IP address if you do this)
 
-Connect both devices to the websocket with the connect button
+Click the next step button to advance to the next step of the sample recipe on the main recipe screen
 
-Enter a new step index and watch the recipe step appear on both devices
+Enter an arbitrary step index on `external.html` and click the update button. Watch the main screen update
+due to its subscription to the websocket endpoint
 
 ## Credit
 
