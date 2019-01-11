@@ -48,4 +48,9 @@ public class RecipeController {
         return ResponseEntity.ok().body("Acknowledged");
     }
 
+    @GetMapping("/prep")
+    public String prep() {
+        return "prep";
+    }
+
 }
