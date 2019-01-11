@@ -53,4 +53,12 @@ public class RecipeController {
         return "prep";
     }
 
+    @GetMapping("/external")
+    public String external() {
+        return "external";
+    }
+
+
+
+
 }
