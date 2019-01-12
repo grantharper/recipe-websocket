@@ -21,6 +21,9 @@ function callUpdateEndpoint() {
   $.ajax({
     url: '/alexa',
     type: 'POST',
+    headers:{
+      Authorization: 'Basic ' + btoa('test:test')
+    },
     contentType: 'application/json',
     data: JSON.stringify(stepIndexUpdate),
     success: function (data) {
