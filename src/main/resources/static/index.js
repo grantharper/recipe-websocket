@@ -1,11 +1,12 @@
 var stompClient = null;
+var messageUrl = "/app/update";
 
 function connect(callback) {
-  var socket = new SockJS('/websocket');
+  var socket = new SockJS('/recipe');
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/recipe/update', function (recipe) {
+    stompClient.subscribe('/user/queue/update', function (recipe) {
       var parsed = JSON.parse(recipe.body);
       updateStepIndexOnUI(parsed.currentStepIndex);
       showCurrentStep(parsed.steps[parsed.currentStepIndex]);
@@ -15,7 +16,7 @@ function connect(callback) {
 }
 
 function initializeRecipe() {
-  stompClient.send("/app/update", {}, JSON.stringify({'currentStepIndex': '0'}));
+  stompClient.send(messageUrl, {}, JSON.stringify({'currentStepIndex': '0'}));
 }
 
 function getCurrentStepIndexFromUI() {
@@ -40,7 +41,7 @@ function previousStep(currentStepIndex) {
 
 function updateStepIndexFromUIAction(updateStepIndex) {
   updateStepIndexOnUI(updateStepIndex.toString());
-  stompClient.send("/app/update", {}, JSON.stringify({'currentStepIndex': updateStepIndex.toString()}));
+  stompClient.send(messageUrl, {}, JSON.stringify({'currentStepIndex': updateStepIndex.toString()}));
 }
 
 function showCurrentStep(message) {

@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,8 +36,10 @@ public class RecipeController {
     }
 
     @MessageMapping("/update")
-    @SendTo("/recipe/update")
-    public Recipe updateStep(StepUpdate stepUpdate) throws Exception {
+//    @SendTo("/recipe/update")
+    @SendToUser("/queue/update")
+    public Recipe updateStep(StepUpdate stepUpdate, Principal principal) throws Exception {
+        log.info("received request from user=" + principal.getName());
         log.info("received websocket stepUpdate: " + stepUpdate);
         recipe.setCurrentStepIndex(stepUpdate.getCurrentStepIndex());
         return this.recipe;
@@ -44,7 +49,7 @@ public class RecipeController {
     public ResponseEntity<String> alexaCall(@RequestBody StepUpdate stepUpdate) {
         log.info("received request: " + stepUpdate);
         recipe.setCurrentStepIndex(stepUpdate.getCurrentStepIndex());
-        this.simpMessagingTemplate.convertAndSend("/recipe/update", recipe);
+        this.simpMessagingTemplate.convertAndSendToUser("test","/queue/update", recipe);
         return ResponseEntity.ok().body("Acknowledged");
     }
 
