@@ -1,14 +1,17 @@
 $(document).ready(function () {
 
-  $("#updateStepIndex").click(function () {
-    console.log('updateStepIndex clicked');
-    callUpdateEndpoint();
+  $("#updateUserUser").click(function () {
+    callUpdateEndpoint('user', 'user');
+  });
+
+  $("#updateTestUser").click(function () {
+    callUpdateEndpoint('test', 'test');
   });
 
 });
 
 
-function callUpdateEndpoint() {
+function callUpdateEndpoint(username, password) {
   var stepIndex = $("#stepIndex").val();
   console.log('sending request with stepIndex=', stepIndex);
 
@@ -17,12 +20,11 @@ function callUpdateEndpoint() {
   };
 
   console.log('data=', stepIndexUpdate);
-
   $.ajax({
     url: '/alexa',
     type: 'POST',
     headers:{
-      Authorization: 'Basic ' + btoa('test:test')
+      Authorization: 'Basic ' + btoa(username + ':' + password)
     },
     contentType: 'application/json',
     data: JSON.stringify(stepIndexUpdate),
