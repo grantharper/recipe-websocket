@@ -42,7 +42,7 @@ public class RecipeController {
 
     @PostMapping("/alexa")
     public ResponseEntity<String> alexaCall(@RequestBody StepUpdate stepUpdate) {
-        log.info("recieved request: " + stepUpdate);
+        log.info("received request: " + stepUpdate);
         recipe.setCurrentStepIndex(stepUpdate.getCurrentStepIndex());
         this.simpMessagingTemplate.convertAndSend("/recipe/update", recipe);
         return ResponseEntity.ok().body("Acknowledged");
@@ -57,8 +57,6 @@ public class RecipeController {
     public String external() {
         return "external";
     }
-
-
 
 
 }
