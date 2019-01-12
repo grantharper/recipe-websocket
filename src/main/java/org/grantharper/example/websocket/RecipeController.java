@@ -46,10 +46,11 @@ public class RecipeController {
     }
 
     @PostMapping("/alexa")
-    public ResponseEntity<String> alexaCall(@RequestBody StepUpdate stepUpdate) {
+    public ResponseEntity<String> alexaCall(@RequestBody StepUpdate stepUpdate, Principal principal) {
         log.info("received request: " + stepUpdate);
+        log.info("recieved external request from user=" + principal.getName());
         recipe.setCurrentStepIndex(stepUpdate.getCurrentStepIndex());
-        this.simpMessagingTemplate.convertAndSendToUser("test","/queue/update", recipe);
+        this.simpMessagingTemplate.convertAndSendToUser(principal.getName(),"/queue/update", recipe);
         return ResponseEntity.ok().body("Acknowledged");
     }
 
