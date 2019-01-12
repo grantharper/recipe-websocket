@@ -18,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withDefaultPasswordEncoder().username("test").password("test").roles("USER").build());
+        manager.createUser(User.withDefaultPasswordEncoder().username("user").password("user").roles("USER").build());
         return manager;
     }
 
