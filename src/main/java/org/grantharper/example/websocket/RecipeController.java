@@ -36,7 +36,6 @@ public class RecipeController {
     }
 
     @MessageMapping("/update")
-//    @SendTo("/recipe/update")
     @SendToUser("/queue/update")
     public Recipe updateStep(StepUpdate stepUpdate, Principal principal) throws Exception {
         log.info("received request from user=" + principal.getName());
@@ -54,7 +53,7 @@ public class RecipeController {
         return ResponseEntity.ok().body("Acknowledged");
     }
 
-    @GetMapping("/prep")
+    @GetMapping("/")
     public String prep() {
         return "prep";
     }
